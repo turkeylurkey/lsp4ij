@@ -60,7 +60,7 @@ public class LSPHoverSupport extends AbstractLSPFeatureSupport<HoverParams, List
     @Override
     protected CompletableFuture<List<MarkupContent>> doLoad(HoverParams params, CancellationSupport cancellationSupport) {
         PsiFile file = super.getFile();
-        return getHover(file.getVirtualFile(), file.getProject(), params, cancellationSupport);
+        return getHover(LSPIJUtils.getFile(file), file.getProject(), params, cancellationSupport);
     }
 
     private static @NotNull CompletableFuture<List<MarkupContent>> getHover(@NotNull VirtualFile file,

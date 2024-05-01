@@ -463,7 +463,7 @@ public class LanguageServersRegistry {
         if (file == null) {
             return false;
         }
-        return isFileSupported(file.getVirtualFile(), file.getProject());
+        return isFileSupported(LSPIJUtils.getFile(file), file.getProject());
     }
 
     /**

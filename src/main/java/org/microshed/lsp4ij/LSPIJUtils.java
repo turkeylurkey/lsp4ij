@@ -29,6 +29,7 @@ import com.intellij.openapi.vfs.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.psi.xml.XmlFile;
 import org.microshed.lsp4ij.internal.StringUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.lsp4j.*;
@@ -227,7 +228,21 @@ public class LSPIJUtils {
      */
     public static @Nullable VirtualFile getFile(@NotNull PsiElement element) {
         PsiFile psFile = element.getContainingFile();
-        return psFile != null ? psFile.getVirtualFile() : null;
+        return psFile != null ? getFile(psFile) : null;
+    }
+
+    /**
+     * Special handling for xml files. Xml editor creates in memory files which
+     * require special handling.
+     * @param file
+     * @return VirtualFile or LightVirtualFile
+     */
+    public static @Nullable VirtualFile getFile(@NotNull PsiFile file) {
+        if (file instanceof XmlFile) {
+            return file.getViewProvider().getVirtualFile();
+        } else {
+            return file.getVirtualFile();
+        }
     }
 
     public static @Nullable Document getDocument(@NotNull VirtualFile file) {

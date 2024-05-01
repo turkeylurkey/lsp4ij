@@ -40,7 +40,11 @@ public class LSPDocumentLinkSupport extends AbstractLSPFeatureSupport<DocumentLi
 
     public LSPDocumentLinkSupport(@NotNull PsiFile file) {
         super(file);
-        this.params = new DocumentLinkParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        if (file.getVirtualFile() == null) {
+            this.params = null;
+        } else {
+            this.params = new DocumentLinkParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        }
     }
 
     public CompletableFuture<List<DocumentLinkData>> getDocumentLinks() {

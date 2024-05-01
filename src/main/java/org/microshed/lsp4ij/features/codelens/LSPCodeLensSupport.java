@@ -43,7 +43,11 @@ public class LSPCodeLensSupport extends AbstractLSPFeatureSupport<CodeLensParams
 
     public LSPCodeLensSupport(@NotNull PsiFile file) {
         super(file);
-        this.params = new CodeLensParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        if (file.getVirtualFile() == null) {
+            this.params = new CodeLensParams(LSPIJUtils.toTextDocumentIdentifier(LSPIJUtils.getFile(file)));
+        } else {
+            this.params = new CodeLensParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        }
     }
 
     public CompletableFuture<List<CodeLensData>> getCodeLenses() {

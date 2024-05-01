@@ -41,7 +41,11 @@ public class LSPFoldingRangeSupport extends AbstractLSPFeatureSupport<FoldingRan
 
     public LSPFoldingRangeSupport(@NotNull PsiFile file) {
         super(file);
-        this.params = new FoldingRangeRequestParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        if (file.getVirtualFile() == null) {
+            this.params = null;
+        } else {
+            this.params = new FoldingRangeRequestParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        }
     }
 
     public CompletableFuture<List<FoldingRange>> getFoldingRanges() {

@@ -40,7 +40,11 @@ public class LSPColorSupport extends AbstractLSPFeatureSupport<DocumentColorPara
 
     public LSPColorSupport(@NotNull PsiFile file) {
         super(file);
-        this.params = new DocumentColorParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        if (file.getVirtualFile() == null) {
+            this.params = null;
+        } else {
+            this.params = new DocumentColorParams(LSPIJUtils.toTextDocumentIdentifier(file.getVirtualFile()));
+        }
     }
 
     public CompletableFuture<List<ColorData>> getColors() {
